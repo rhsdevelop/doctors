@@ -1,0 +1,34 @@
+Instalação no Heroku
+
+Criar novo time e novo app no Heroku vinculando a conta git.
+
+Comando para clonar o projeto
+git clone https://github.com/rhsdevelop/doctors.git
+
+virtualenv
+source ./colih-django/env/bin/activate
+
+sudo snap install heroku --classic
+heroku login (abre o navegador para o login)
+sudo apt install libpq-dev
+pip install gunicorn
+pip install django-heroku
+pip freeze > requirements.txt
+verificar .gitignore (retirar migrations)
+heroku git:remote -a rhs-doctors
+
+(fazer alterações conforme orientação do site da Heroku)
+criar Procfile na raiz apontando pra wsgi do project.
+web: gunicorn colih.wsgi
+em settings.py:
+import django_heroku
+# Activate Django-Heroku.
+django_heroku.settings(locals())
+
+heroku create
+git add .
+git commit -m 'Implantação'
+git push -u heroku main
+
+para executar comando diretamente no heroku:
+heroku run "comando"

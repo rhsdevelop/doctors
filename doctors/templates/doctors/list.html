@@ -46,7 +46,6 @@
       <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
-            <th scope="col">ID</th>
             <th scope="col">Nome</th>
             <th scope="col">Especialidade</th>
             <th scope="col">Cidade</th>
@@ -57,8 +56,7 @@
         <tbody>
           {% for doctor in doctors %}
           <tr>
-            <th scope="row">{{ doctor.id }}</th>
-            <td>{{ doctor.name }}</td>
+            <th scope="row">{{ doctor.name }}</th>
             <td>{{ doctor.specialty }}</td>
             <td>{{ doctor.city }}</td>
             <td>{{ doctor.hospital }}</td>

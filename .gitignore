@@ -131,3 +131,4 @@ dmypy.json
 # Personal files
 *.sqlite3
 *.csv
+doctors/migrations/*

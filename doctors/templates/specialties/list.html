@@ -37,18 +37,16 @@
       <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Data de inclusão</th>
             <th scope="col">Especialidade</th>
+            <th scope="col">Data de inclusão</th>
             <th scope="col">Ações</th>
           </tr>
         </thead>
         <tbody>
           {% for specialty in specialties %}
           <tr>
-            <th scope="row">{{ specialty.id }}</th>
+            <th scope="row">{{ specialty.name }}</th>
             <td>{{ specialty.register_date }}</td>
-            <td>{{ specialty.name }}</td>
             <td><a href="/specialties/{{ specialty.id }}/edit/" ><button class="btn btn-info"><span class="fas fa-edit"></span></button></a></td>
           </tr>
           {% endfor %}

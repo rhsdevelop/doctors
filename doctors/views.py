@@ -113,7 +113,7 @@ def edit_doctor(request, doctor_id):
         else:
             form = AddDoctorForm(request.POST, instance=doctor)
             item = form
-            #item.save()
+            item.save()
             messages.success(request, 'Registro alterado com sucesso.')
             return redirect('/doctors/list')
     phones = Phone.objects.filter(doctor=doctor)
