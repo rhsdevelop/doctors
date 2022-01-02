@@ -24,6 +24,7 @@ def index(request):
 
 
 @login_required
+@permission_required('doctors.add_specialty')
 def add_specialty(request):
     if request.POST:
         form = AddSpecialtyForm(request.POST)
@@ -42,6 +43,7 @@ def add_specialty(request):
 
 
 @login_required
+@permission_required('doctors.change_specialty')
 def edit_specialty(request, specialty_id):
     specialty = Specialty.objects.get(id=specialty_id)
     if request.POST:
@@ -80,6 +82,7 @@ def list_specialties(request):
 
 
 @login_required
+@permission_required('doctors.add_doctor')
 def add_doctor(request):
     if request.POST:
         form = AddDoctorForm(request.POST)
@@ -156,8 +159,8 @@ def list_doctors(request):
 
 
 @login_required
+@permission_required('doctors.delete_phone')
 def delete_phone(request, doctor_id, phone_id):
-    print(doctor_id, phone_id)
     phone = Phone.objects.get(id=phone_id)
     phone.delete()
     messages.success(request, 'Contato telefônico removido com sucesso.')
@@ -187,10 +190,3 @@ def detail(request, doctor_id):
         'doctor': '%s - %s' % (doctor.name, doctor.hospital)
     }
     return render(request, 'doctors/detail.html', context)
-
-def results(request, question_id):
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % question_id)
-
-def vote(request, question_id):
-    return HttpResponse("You're voting on question %s." % question_id)

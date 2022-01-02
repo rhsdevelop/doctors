@@ -2,10 +2,12 @@
 {% load bootstrap %}
 
 {% block corpo %}
+{% if perms.doctors.add_specialty %}
 <div class="col-lg-12">
   <a href="/specialties/add/" ><button class="btn btn-info"><span class="fas fa-plus"></span> Adicionar Especialidade</button></a>
 </div>
 <br>
+{% endif %}
 <div class="card shadow mb-4">
   <!-- Card Header - Accordion -->
   <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
@@ -39,7 +41,7 @@
           <tr>
             <th scope="col">Especialidade</th>
             <th scope="col">Data de inclusão</th>
-            <th scope="col">Ações</th>
+            {% if perms.doctors.change_specialty %}<th scope="col">Ações</th>{% endif %}
           </tr>
         </thead>
         <tbody>
@@ -47,7 +49,7 @@
           <tr>
             <th scope="row">{{ specialty.name }}</th>
             <td>{{ specialty.register_date }}</td>
-            <td><a href="/specialties/{{ specialty.id }}/edit/" ><button class="btn btn-info"><span class="fas fa-edit"></span></button></a></td>
+            {% if perms.doctors.change_specialty %}<td><a href="/specialties/{{ specialty.id }}/edit/" ><button class="btn btn-info"><span class="fas fa-edit"></span></button></a></td>{% endif %}
           </tr>
           {% endfor %}
         </tbody>

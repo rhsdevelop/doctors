@@ -2,10 +2,12 @@
 {% load bootstrap %}
 
 {% block corpo %}
+{% if perms.doctors.add_doctor %}
 <div class="col-lg-12">
   <a href="/doctors/add/" ><button class="btn btn-info"><span class="fas fa-plus"></span> Adicionar Médico</button></a>
 </div>
 <br>
+{% endif %}
 <div class="card shadow mb-4">
   <!-- Card Header - Accordion -->
   <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
