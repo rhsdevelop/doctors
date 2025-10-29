@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load bootstrap %}
+{% load crispy_forms_tags %}
 
 {% block corpo %}
 <div class="container-fluid">
@@ -8,13 +8,14 @@
       <div class="col-lg-6">
         <form action="." class="form-horizontal" method="post">
           {% csrf_token %}
-          <h5>Editar dados</h5>
           <br>
-          {{ form|bootstrap }}
+          {% crispy form %}
           {% if perms.doctors.change_doctor %}
+          <!--
           <div class="col-lg-12">
             <button class="btn btn-primary" type="submit">Confirmar</button>
           </div>
+          -->
           {% endif %}
         </form>
       </div>
@@ -51,13 +52,9 @@
         {% if perms.doctors.add_phone %}
         <form action="." class="form-horizontal" method="post">
           {% csrf_token %}
-          <h5>Adicionar número</h5>
           <br>
-          {{ phone_form|bootstrap }}
+          {% crispy phone_form %}
           <br>
-          <div class="col-lg-12">
-            <button id="phone_button" class="btn btn-primary" type="submit">Incluir</button>
-          </div>
         </form>
         {% endif %}
       </div>

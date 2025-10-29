@@ -226,7 +226,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Willian Faria 2022</span>
+                        <span>Copyright &copy; Willian Faria 2025</span>
                     </div>
                 </div>
             </footer>
@@ -262,6 +262,39 @@
             </div>
         </div>
     </div>
+    <!-- Ajuste para renderização de selects -->
+    <script>
+        window.addEventListener('load', function() {
+            const elements = document.querySelectorAll('.form-select');
+
+            // Se não houver elementos, não faz nada
+            if (!elements) {
+            return;
+            }
+
+            elements.forEach(function(element) {
+            // Remove apenas a classe específica do select do Bootstrap 5
+            if (element.classList.contains('form-select')) {
+                element.classList.remove('form-select');
+            }
+
+            // Adiciona a classe de controle padrão
+            if (!element.classList.contains('form-control')) {
+                element.classList.add('form-control');
+            }
+
+            // Preserva classes existentes; ajuste opcional de tamanhos para manter aparência
+            if (element.classList.contains('form-select-sm')) {
+                element.classList.remove('form-select-sm');
+                element.classList.add('form-control-sm');
+            }
+            if (element.classList.contains('form-select-lg')) {
+                element.classList.remove('form-select-lg');
+                element.classList.add('form-control-lg');
+            }
+            });
+        });
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="/static/sb/vendor/jquery/jquery.min.js"></script>

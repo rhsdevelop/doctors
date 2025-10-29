@@ -55,7 +55,7 @@ def edit_specialty(request, specialty_id):
     form = AddSpecialtyForm(instance=specialty)
     template = loader.get_template('specialties/edit.html')
     context = {
-        'title': 'Dados de Especialidade Cadastrada',
+        'title': 'Editar Especialidade Cadastrada',
         'username': '%s %s' % (request.user.first_name, request.user.last_name),
         'form': form,
     }

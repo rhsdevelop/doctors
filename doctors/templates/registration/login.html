@@ -1,4 +1,4 @@
-{% load bootstrap %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,8 +58,8 @@
                                             <div class="row">
                                                 <div class="col-lg-3"></div>
                                                 <div class="col-lg-6">
-                                                    {{ form.username|bootstrap }}
-                                                    {{ form.password|bootstrap }}
+                                                    {{ form.username|as_crispy_field }}
+                                                    {{ form.password|as_crispy_field }}
                                                 </div>
                                             </div>
                                         </div>
