@@ -125,7 +125,7 @@ class Doctor(models.Model):
     specialty2 = models.ForeignKey(Specialty, verbose_name='Especialidade 2', on_delete=models.PROTECT, related_name='doctors_secondary', blank=True, null=True)
     specialty3 = models.ForeignKey(Specialty, verbose_name='Especialidade 3', on_delete=models.PROTECT, related_name='doctors_tertiary', blank=True, null=True)
     subspecialty = models.CharField('Subespecialidade', max_length=30, null=True, blank=True)
-    crm = models.CharField('CRM', max_length=30, null=True, blank=True)
+    crm = models.CharField('CRM', max_length=80, null=True, blank=True)
     type_patient = models.CharField(
         'Tipo de paciente', 
         max_length=40, 
