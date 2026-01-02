@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block corpo %}
+<div class="card shadow mb-4">
+    <a href="#collapseFiltro" class="d-block card-header py-3" data-toggle="collapse" role="button">
+        <h6 class="m-0 font-weight-bold text-primary">Filtro de Acompanhamento</h6>
+    </a>
+    <div class="collapse show" id="collapseFiltro">
+        <div class="card-body">
+            <form method="get">
+                <div class="row">
+                    <div class="col-md-4">{{ form.nome_paciente|as_crispy_field }}</div>
+                    <div class="col-md-4">{{ form.status_gvp|as_crispy_field }}</div>
+                    <div class="col-md-4">{{ form.hospital|as_crispy_field }}</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Casos GVP</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Paciente</th>
+                        <th>Hospital</th>
+                        <th>Status GVP</th>
+                        <th>Última Atualização</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in planilhas %}
+                    <tr>
+                        <td>{{ p.nome_paciente }}</td>
+                        <td>{{ p.nome_hospital.name|default:"-" }}</td>
+                        <td>
+                            {% if p.status_gvp == 'AND' %}
+                                <span class="badge badge-primary">Em Acompanhamento</span>
+                            {% else %}
+                                <span class="badge badge-success">Finalizado</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ p.updated_at|date:"d/m/Y H:i" }}</td>
+                        <td>
+                            {% if perms.doctors.add_gvpvisit %}
+                            <a href="/gvp/{{ p.id }}/register/" class="btn btn-sm btn-info" title="Nova Visita">
+                                <span class="fas fa-plus"></span> Visita
+                            </a>
+                            {% endif %}
+                            {% if perms.doctors.change_planilhaemergencia %}
+                            <a href="/emergencia/{{ p.id }}/edit/" class="btn btn-sm btn-secondary" title="Ver Emergência">
+                                <span class="fas fa-file-medical"></span>
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

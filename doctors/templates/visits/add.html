@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block corpo %}
+<div class="container-fluid">
+  <div>
+    <form action="." class="form-horizontal" method="post">
+      <div class="row">
+        {% csrf_token %}
+        <div class="col-lg-6">
+          {% crispy form %}
+        </div>
+        <div class="col-lg-6">
+          <img class="img-fluid center" style="width: inherit; border-style: double;" src="/static/img/doctor.jpg">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<br>
+{% endblock %}

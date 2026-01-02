@@ -57,7 +57,7 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            {% if perms.doctors.add_doctor or request.user.is_staff %}
+            {% if perms.doctors.view_specialty or perms.doctors.view_doctor or perms.doctors.view_phone or request.user.is_staff %}
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
@@ -67,9 +67,55 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Registros armazenados:</h6>
+                        {% if perms.doctors.view_specialty %}
                         <a class="collapse-item" href="/specialties/list/">Especialidades</a>
+                        {% endif %}
+                        {% if perms.doctors.view_doctor %}
                         <a class="collapse-item" href="/doctors/list/">Médicos</a>
+                        {% endif %}
+                        {% if perms.doctors.view_phone %}
                         <a class="collapse-item" href="/phones/list/">Contatos Telefônicos</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+            {% if perms.doctors.view_visit or perms.doctors.view_planilhaemergencia or request.user.is_staff %}
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                    aria-expanded="true" aria-controls="collapseThree">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Atividades Colih</span>
+                </a>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Opções:</h6>
+                        {% if perms.doctors.view_visit %}
+                        <a class="collapse-item" href="/visits/list/">Visitas Médicos</a>
+                        {% endif %}
+                        {% if perms.doctors.view_planilhaemergencia %}
+                        <a class="collapse-item" href="/emergencia/list/">Emergências (hlc-7)</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+            {% if perms.doctors.view_gvpvisit or perms.doctors.change_planilhaemergencia or request.user.is_staff %}
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
+                    aria-expanded="true" aria-controls="collapseFour">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Atividades GVP</span>
+                </a>
+                <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Opções:</h6>
+                        {% if perms.doctors.view_gvpvisit or perms.doctors.change_planilhaemergencia %}
+                        <a class="collapse-item" href="/gvp/acompanhamentos/">Emergências</a>
+                        {% endif %}
+                        {% if request.user.is_staff %}
+                        <a class="collapse-item" href="/gvp/register/">Visitas Pacientes</a>
+                        {% endif %}
                     </div>
                 </div>
             </li>
@@ -156,10 +202,18 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                {% if request.user.is_staff %}
+                                <a class="dropdown-item" href="/admin/">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Configurações
                                 </a>
+                                {% endif %}
+                                {% if perms.admin.can_change_email_config %}
+                                <a class="dropdown-item" href="/config/email/">
+                                    <i class="fas fa-envelope fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Servidor SMTP
+                                </a>
+                                {% endif %}
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Log de atividades
@@ -226,7 +280,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Willian Faria 2025</span>
+                        <span>Copyright &copy; Willian Faria 2026</span>
                     </div>
                 </div>
             </footer>
@@ -297,6 +351,7 @@
     </script>
 
     <!-- Bootstrap core JavaScript-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/static/sb/vendor/jquery/jquery.min.js"></script>
     <script src="/static/sb/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

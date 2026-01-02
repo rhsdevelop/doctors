@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block corpo %}
+
+{% if perms.doctors.add_visit %}
+<div class="col-lg-12">
+  <a href="/visits/add/" ><button class="btn btn-info"><span class="fas fa-plus"></span> Registrar Nova Visita</button></a>
+</div>
+<br>
+{% endif %}
+
+<div class="card shadow mb-4">
+  <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+      role="button" aria-expanded="true" aria-controls="collapseCardExample">
+      <h6 class="m-0 font-weight-bold text-primary">Filtro de Pesquisa</h6>
+  </a>
+  <div class="collapse hide" id="collapseCardExample">
+      <div class="card-body">
+        <form action="." method="get">
+          <div class="row">
+            <div class="col-lg-4">
+              {{ form.doctor_name|as_crispy_field }}
+            </div>
+            <div class="col-lg-4">
+              {{ form.visit_type|as_crispy_field }}
+            </div>
+            <div class="col-lg-4">
+              {{ form.specialty|as_crispy_field }}
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <button class="btn btn-primary" type="submit">Buscar</button>
+            <a href="." class="btn btn-secondary">Limpar</a>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
+
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Visitas Registradas</h6>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th scope="col">Data</th>
+            <th scope="col">Médico</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Especialidade</th>
+            <th scope="col">Local</th>
+            {% if perms.doctors.change_visit %}<th scope="col">Ações</th>{% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for visit in visits %}
+          <tr>
+            <td>{{ visit.visit_date|date:"d/m/Y" }}</td>
+            
+            <td>{{ visit.doctor.name }}</td>
+            
+            <td>{{ visit.get_visit_type_display }}</td>
+            
+            <td>{{ visit.specialty.name }}</td>
+            
+            <td>
+                {% if visit.hospital %}
+                    {{ visit.hospital.name }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+
+            {% if perms.doctors.change_visit %}
+            <td>
+              <a href="/visits/{{ visit.id }}/edit/" >
+                <button class="btn btn-secondary btn-sm" title="Edição"><span class="fas fa-edit"></span></button>
+              </a>
+              <a href="/visits/{{ visit.id }}/delete/" >
+                <button class="btn btn-danger btn-sm" title="Edição"><span class="fas fa-trash"></span></button>
+              </a>
+            </td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="/static/sb/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/sb/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<script src="/static/sb/js/demo/datatables-demo.js"></script>
+{% endblock %}

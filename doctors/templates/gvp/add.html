@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block corpo %}
+<div class="row">
+    {% if planilha %}
+    <div class="col-lg-4">
+        <div class="card shadow mb-4 border-left-info">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-info">Resumo para o GVP</h6>
+            </div>
+            <div class="card-body">
+                <p><strong>Paciente:</strong> {{ planilha.nome_paciente }}</p>
+                <p><strong>Hospital:</strong> {{ planilha.nome_hospital.name }}</p>
+                <p><strong>Quarto:</strong> {{ planilha.numero_quarto|default:"Não informado" }}</p>
+                <hr>
+                <p class="text-danger"><strong>Diagnóstico:</strong><br>{{ planilha.problema_especifico }}</p>
+                <p class="text-primary"><strong>Estratégia/Artigos:</strong><br>{{ planilha.estrategias_opcoes }}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="{% if planilha %}col-lg-8{% else %}col-lg-12{% endif %}">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">{{ title }}</h6>
+            </div>
+            <div class="card-body">
+                {% crispy form %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
