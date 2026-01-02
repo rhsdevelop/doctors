@@ -1,8 +1,11 @@
 import datetime
+from datetime import timedelta
+
 from django import forms
 from django.contrib.auth.models import User
+from django.db.models import Count, Q
 from django.utils import timezone
-from .models import EmailConfiguration, MembroGvp, Hospital, Doctor, Phone, Specialty, Visit, PlanilhaEmergencia, GvpVisit
+from .models import EmailConfiguration, MembroColih, MembroGvp, Hospital, Doctor, Phone, Specialty, Visit, PlanilhaEmergencia, GvpVisit
 from crispy_forms.bootstrap import TabHolder, Tab
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Fieldset, HTML, ButtonHolder, Submit
@@ -180,6 +183,24 @@ class AddVisitForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        # 1. Definir período para a métrica de escala (30 dias)
+        trinta_dias_atras = timezone.now() - timedelta(days=30)
+        membros_colih_ids = MembroColih.objects.filter(ativo=True).values_list('user_id', flat=True)
+        
+        queryset_membros = User.objects.filter(id__in=membros_colih_ids).annotate(
+            num_visitas_recentes=Count(
+                'visits', # Relacionamento reverso do model Visit
+                filter=Q(visits__visit_date__gte=trinta_dias_atras)
+            )
+        ).order_by('num_visitas_recentes', 'first_name')
+
+        # 3. Aplicar o queryset restrito ao campo 'user' (ou o nome do campo de visitante no seu model)
+        self.fields['members'].queryset = queryset_membros
+        self.fields['members'].label = "Membro Visitante (COLIH)"
+        
+        # Opcional: Personalizar o texto exibido no select para mostrar a carga de trabalho
+        #self.fields['user'].label_from_instance = lambda obj: f"{obj.get_full_name()} ({obj.num_visitas_recentes} visitas/mês)"
+        
         self.helper = FormHelper()
         self.helper.form_method = "post"
         self.helper.form_tag = True

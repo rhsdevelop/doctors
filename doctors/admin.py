@@ -1,8 +1,22 @@
 from django.contrib import admin
 
-from .models import Doctor, City, Hospital, Specialty, MembroGvp
+from .models import Doctor, City, Hospital, Specialty, MembroColih, MembroGvp
 
 # Register your models here.
+
+@admin.register(MembroColih)
+class MembroColihAdmin(admin.ModelAdmin):
+    list_display = ('get_full_name', 'ativo', 'get_visitas_30_dias')
+    list_filter = ('ativo',)
+    search_fields = ('user__first_name', 'user__last_name')
+
+    def get_full_name(self, obj):
+        return obj.user.get_full_name()
+    get_full_name.short_description = 'Nome'
+
+    def get_visitas_30_dias(self, obj):
+        return obj.total_visitas_recentes
+    get_visitas_30_dias.short_description = 'Visitas Médicas (30 dias)'
 
 @admin.register(MembroGvp)
 class MembroGvpAdmin(admin.ModelAdmin):

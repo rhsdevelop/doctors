@@ -39,6 +39,32 @@ class EmailConfiguration(models.Model):
     def __str__(self):
         return f"Servidor: {self.smtp_server} ({self.email_user})"
 
+class MembroColih(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Usuário", related_name='perfil_colih')
+    ativo = models.BooleanField(default=True, verbose_name="Ativo")
+
+    def __str__(self):
+        return f"{self.user.first_name} {self.user.last_name}"
+
+    @property
+    def total_visitas_recentes(self):
+        """
+        Calcula o total de visitas a MÉDICOS/HOSPITAIS (Model Visit) 
+        que este usuário realizou nos últimos 30 dias.
+        """
+        trinta_dias_atras = timezone.now() - timedelta(days=30)
+        from .models import Visit
+        # Filtramos as visitas (Visit) onde este usuário é o autor/visitante
+        # Ajuste o campo 'user' se o nome no seu model Visit for diferente (ex: 'membro')
+        return Visit.objects.filter(
+            members=self.user, 
+            visit_date__gte=trinta_dias_atras
+        ).count()
+    
+    class Meta:
+        verbose_name = "Membro da COLIH"
+        verbose_name_plural = "Membros da COLIH"
+
 class MembroGvp(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Usuário")
     ativo = models.BooleanField(default=True)
