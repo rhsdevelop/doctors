@@ -95,7 +95,7 @@ class Hospital(models.Model):
         return self.name
 
 class Specialty(models.Model):
-    name = models.CharField('Nome', max_length=50)
+    name = models.CharField('Nome', max_length=100)
     register_date = models.DateTimeField('Data do cadastro', auto_now_add=True)
 
     def __str__(self) -> str:
